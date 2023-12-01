@@ -47,18 +47,18 @@ private:
     map<connection, int> matrix;
 
 public:
-    int nof_nodes;
+    int nof_vertices;
     float density;
     int min_distance;
     int max_distance;
-    graph(int nof_nodes = 4, float density = 1, int min_distance = 1, int max_distance = 10);
+    graph(int nof_vertices = 4, float density = 1, int min_distance = 1, int max_distance = 10);
     friend ostream &operator<<(ostream &os, const graph &g)
     {
         map<connection, int>::const_iterator it;
         int loop_cnt = 0;
         cout << "===========================================================" << endl;
         cout << "matrix size::  " << g.matrix.size() << endl;
-        cout << "nof_nodes::    " << g.nof_nodes << endl;
+        cout << "nof_vertices::    " << g.nof_vertices << endl;
         cout << "density::      " << g.density << endl;
         cout << "min_distance:: " << g.min_distance << endl;
         cout << "max_distance:: " << g.max_distance << endl;
@@ -82,6 +82,27 @@ public:
 
     // returns True if a connection exists, else False
     bool exists(connection a_connection);
+    // Overloading for convenience
+    bool exists(int x, int y);
+
     // Get average path length
     int get_average_path_length();
+    // V(G) : returns the number of vertices in the graph
+    int V();
+    // E(G) : returns the number of edges in the graph
+    int E();
+    // adjacent(G, x, y) : tests whether there is an edge from node x to node y.
+    bool adjacent(int x, int y);
+    // neighbors(G, x) : lists all nodes y such that there is an edge from x to y.
+    vector<int> neighbors(int x);
+    // add(G, x, y) : adds to G the edge from x to y, if it is not there.
+    void add(int x, int y);
+    // delete(G, x, y) : removes the edge from x to y, if it is there.
+    void delete_node(int x, int y);
+    // get_node_value(G, x) : returns the value associated with the node x.
+    // set_node_value(G, x, a) : sets the value associated with the node x to a.
+    // get_edge_value(G, x, y) : returns the value associated to the edge(x, y).
+    int get_edge_value(int x, int y);
+    // set_edge_value(G, x, y, v) : sets the value associated to the edge(x, y) to v.
+    void set_edge_value(int x, int y, int v);
 };
