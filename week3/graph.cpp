@@ -33,16 +33,25 @@ bool graph::exists(connection a_connection)
 // Get average path length
 int graph::get_average_path_length()
 {
+    int total_path_length;
     int average_path_length;
+    int divider;
     connection a_connection;
+    total_path_length = 0;
+    divider = 0;
     for (int i = 1; i < nof_nodes; i++)
     {
         a_connection.y = i;
         if (exists(a_connection))
         {
-            average_path_length += matrix[a_connection];
+            total_path_length += matrix[a_connection];
+            divider++;
         }
     }
+    // Avoid divide by 0
+    if (divider == 0)
+        divider = 1;
+    average_path_length = total_path_length / divider;
     return average_path_length;
 }
 

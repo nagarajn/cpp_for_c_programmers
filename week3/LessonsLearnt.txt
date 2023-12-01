@@ -1,0 +1,13 @@
+Here's what I learnt:
+
+1. Maps: I chose to implement the graph as a connectivity matrix.
+This seemed to be a more intuitive solution compared to the edge lists one. Although the edge lists
+implementation will be better in case of a sparsely connected graph.
+
+Implemented the matrix using a map. The 'key' to the map is a new class called 'connection'.
+connection class basically indicates that a connection exists between vertices 'x' and 'y' ('x' and 'y' are members of connection class).
+Map provides easy way to check if a connection exists and also simple to iterate through it. The 'value' of the 
+map is an integer indicating the distance of the vertices.
+
+2. Operator overloading: Used operator overloading of stream operator to provide easy way to print out the classes.
+3. Random number generation: Used srand and rand to generate random numbers required for creating a probabilistic adding of edges to the graph creation.
