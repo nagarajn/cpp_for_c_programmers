@@ -1,0 +1,8 @@
+{
+    "editor.inlineSuggest.showToolbar": "onHover",
+    "files.associations": {
+        "iostream": "cpp",
+        "utility": "cpp",
+        "map": "cpp"
+    }
+}
