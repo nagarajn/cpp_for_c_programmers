@@ -25,16 +25,36 @@ graph::graph(int nof_nodes, float density, int min_distance, int max_distance) :
         matrix[a_connection] = random_distance;
     }
 }
+// returns True if a connection exists, else False
+bool graph::exists(connection a_connection)
+{
+    return (matrix.find(a_connection) != matrix.end());
+}
+// Get average path length
+int graph::get_average_path_length()
+{
+    int average_path_length;
+    connection a_connection;
+    for (int i = 1; i < nof_nodes; i++)
+    {
+        a_connection.y = i;
+        if (exists(a_connection))
+        {
+            average_path_length += matrix[a_connection];
+        }
+    }
+    return average_path_length;
+}
 
+// Main function ::
 int main()
 {
+    // To get random output on each run:
     srand(time(0));
-    cout << "Compiling..." << endl;
     graph *a_graph = new graph(50, 0.2, 1, 10);
     cout << *a_graph << endl;
     cout << "Average path length: " << a_graph->get_average_path_length() << endl;
     delete (a_graph);
-
     a_graph = new graph(50, 0.4, 1, 10);
     cout << *a_graph << endl;
     cout << "Average path length: " << a_graph->get_average_path_length() << endl;

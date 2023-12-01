@@ -81,23 +81,7 @@ public:
     }
 
     // returns True if a connection exists, else False
-    bool exists(connection a_connection)
-    {
-        return (matrix.find(a_connection) != matrix.end());
-    }
+    bool exists(connection a_connection);
     // Get average path length
-    int get_average_path_length()
-    {
-        int average_path_length;
-        connection a_connection;
-        for (int i = 1; i < nof_nodes; i++)
-        {
-            a_connection.y = i;
-            if (exists(a_connection))
-            {
-                average_path_length += matrix[a_connection];
-            }
-        }
-        return average_path_length;
-    }
+    int get_average_path_length();
 };
