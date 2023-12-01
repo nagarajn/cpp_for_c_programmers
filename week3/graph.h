@@ -6,13 +6,98 @@
 
 #include <map>
 #include <string>
+#include <iostream>
+#include <iomanip>
+#include <random>
+#include <cstdlib>
+#define BIG_LOOP_LIMIT 10000
 using namespace std;
+// Class connection represents a single connection in the connectivity
+//  matrix. It contains both the vertices but not the value.
+class connection
+{
+public:
+    int x;
+    int y;
+    connection(int x = 0, int y = 0)
+    {
+        this->x = x;
+        this->y = y;
+    }
+    friend ostream &operator<<(ostream &os, const connection &c)
+    {
+        os << setw(2) << '(' << setw(2) << c.x << ',' << setw(2) << c.y << ')';
+        return os;
+    }
+    bool operator<(const connection &other) const
+    {
+        if (x < other.x)
+            return true;
+        if (other.x < x)
+            return false;
+        if (y < other.y)
+            return true;
+        return false;
+    }
+};
+
 class graph
 {
 private:
-    map<int, map<int, int> /**/> connectivity_matrix;
+    map<connection, int> matrix;
 
 public:
+    int nof_nodes;
+    float density;
+    int min_distance;
+    int max_distance;
     graph(int nof_nodes = 4, float density = 1, int min_distance = 1, int max_distance = 10);
-    void print_matrix();
+    friend ostream &operator<<(ostream &os, const graph &g)
+    {
+        map<connection, int>::const_iterator it;
+        int loop_cnt = 0;
+        cout << "===========================================================" << endl;
+        cout << "matrix size::  " << g.matrix.size() << endl;
+        cout << "nof_nodes::    " << g.nof_nodes << endl;
+        cout << "density::      " << g.density << endl;
+        cout << "min_distance:: " << g.min_distance << endl;
+        cout << "max_distance:: " << g.max_distance << endl;
+
+        for (it = g.matrix.begin(); it != g.matrix.end(); it++)
+        {
+            os << it->first // string (key)
+               << ':'
+               << setw(3) << it->second << " ";
+
+            // Insert an end of line after every 8th iteration
+            if (loop_cnt % 8 == 7)
+            {
+                os << endl;
+            }
+            loop_cnt++;
+        }
+
+        return os;
+    }
+
+    // returns True if a connection exists, else False
+    bool exists(connection a_connection)
+    {
+        return (matrix.find(a_connection) != matrix.end());
+    }
+    // Get average path length
+    int get_average_path_length()
+    {
+        int average_path_length;
+        connection a_connection;
+        for (int i = 1; i < nof_nodes; i++)
+        {
+            a_connection.y = i;
+            if (exists(a_connection))
+            {
+                average_path_length += matrix[a_connection];
+            }
+        }
+        return average_path_length;
+    }
 };

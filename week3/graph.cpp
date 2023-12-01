@@ -1,39 +1,41 @@
-#include <iostream>
 #include "graph.h"
-using namespace std;
 
 // Most generic constructor method to initialize the graph
-graph::graph(int nof_nodes, float density, int min_distance, int max_distance)
+graph::graph(int nof_nodes, float density, int min_distance, int max_distance) : nof_nodes(nof_nodes),
+                                                                                 density(density), min_distance(min_distance), max_distance(max_distance)
 {
-    int nof_conn = nof_nodes * density;
-    cout << "nof_conn:" << nof_conn << endl;
-    for (int i = 0; i < nof_nodes; i++)
+    int total_nof_conn = nof_nodes * (nof_nodes - 1);
+    for (int i = 0; i < total_nof_conn; i++)
     {
-        for (int conn = 0; conn < nof_conn; conn++)
+        if (rand() % 100 >= density * 100)
+            continue;
+        int random_distance = min_distance + (rand() % (max_distance - min_distance)) + 1;
+        int random_node = rand() % nof_nodes;
+        int max_loop_cnt = BIG_LOOP_LIMIT;
+        connection a_connection(i % nof_nodes, random_node);
+        // Search till we find a unique node to connect with..
+        while ((exists(a_connection) && max_loop_cnt > 0) || (random_node == i))
         {
-            int random_distance = min_distance + (rand() % (max_distance - min_distance)) + 1;
-            int random_node = rand() % nof_nodes;
-            int max_loop_cnt = nof_nodes;
-            cout << "random_distance" << random_distance << " random_node" << random_node << endl;
-            // Search till we find a unique node to connect with..
-            // while ((connectivity_matrix.find(make_pair(i, random_node)) == connectivity_matrix.end()) && max_loop_cnt > 0)
-            // {
-            //     max_loop_cnt--;
-            //     random_node = rand() % nof_nodes;
-            // }
-            connectivity_matrix[i][random_node] = random_distance;
-            cout << "connectivity_matrix: " << connectivity_matrix[i][random_node] << " Size: " << connectivity_matrix.size() << endl;
+            max_loop_cnt--;
+            random_node = rand() % nof_nodes;
+            a_connection.y = random_node;
         }
+        if (max_loop_cnt == 0)
+            cout << "Loop maxed out !!" << endl;
+        matrix[a_connection] = random_distance;
     }
 }
-void graph::print_matrix()
-{
-    cout << "Size: " << connectivity_matrix.size() << endl;
-}
+
 int main()
 {
+    srand(time(0));
     cout << "Compiling..." << endl;
-    graph graphInst;
-    //(4, 1, 1, 10);
-    graphInst.print_matrix();
+    graph *a_graph = new graph(50, 0.2, 1, 10);
+    cout << *a_graph << endl;
+    cout << "Average path length: " << a_graph->get_average_path_length() << endl;
+    delete (a_graph);
+
+    a_graph = new graph(50, 0.4, 1, 10);
+    cout << *a_graph << endl;
+    cout << "Average path length: " << a_graph->get_average_path_length() << endl;
 }
