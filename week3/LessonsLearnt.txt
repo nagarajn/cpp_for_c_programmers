@@ -11,3 +11,8 @@ map is an integer indicating the distance of the vertices.
 
 2. Operator overloading: Used operator overloading of stream operator to provide easy way to print out the classes.
 3. Random number generation: Used srand and rand to generate random numbers required for creating a probabilistic adding of edges to the graph creation.
+
+
+https://www.youtube.com/watch?v=CerlT7tTZfY
+
+https://www.youtube.com/watch?v=pVfj6mxhdMw

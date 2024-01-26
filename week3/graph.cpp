@@ -1,3 +1,5 @@
+#ifndef __GRAPH_CPP__
+#define __GRAPH_CPP__
 #include "graph.h"
 
 // Most generic constructor method to initialize the graph
@@ -128,3 +130,5 @@ void graph::set_edge_value(int x, int y, int v)
     a_connection.y = y;
     matrix[a_connection] = v;
 }
+
+#endif

@@ -1,3 +1,5 @@
+#ifndef __PRIORITY_QUEUE_CPP__
+#define __PRIORITY_QUEUE_CPP__
 #include "priority_queue.h"
 
 // minPrioirty(PQ): removes the top element of the queue.
@@ -86,3 +88,5 @@ int priority_queue::size()
 {
     return min_heap_arr.size();
 }
+
+#endif

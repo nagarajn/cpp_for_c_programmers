@@ -1,23 +1,27 @@
+#ifndef __PRIORITY_QUEUE_H__
+#define __PRIORITY_QUEUE_H__
 #include <vector>
 #include <iomanip>
 #include <iostream>
-#define MAX_INT (2 * *32 - 1)
+#define MAX_INT 100000
 using namespace std;
 class node
 {
 public:
     int vertex;
     int weight; // same as accumulated distance
-
-    node(int vertex = 0, int weight = 0) : vertex(vertex), weight(weight)
+    // Constructor
+    node(int vertex = 0, int weight = MAX_INT) : vertex(vertex), weight(weight)
     {
     }
+    // Overload the greater than operator
     bool operator>(const node &other) const
     {
         if (weight > other.weight)
             return true;
         return false;
     }
+    // Overload the ostream operator for easier prints
     friend ostream &operator<<(ostream &os, const node &n)
     {
         os << setw(2) << '(' << setw(2) << n.vertex << ',' << setw(2) << n.weight << ')';
@@ -66,3 +70,4 @@ public:
         return os;
     }
 };
+#endif
