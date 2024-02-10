@@ -27,6 +27,7 @@ public:
         os << setw(2) << '(' << setw(2) << n.vertex << ',' << setw(2) << n.weight << ')';
         return os;
     }
+    //Overload comparison operator
     bool operator==(const node &other)
     {
         if (vertex == other.vertex && weight == other.weight)

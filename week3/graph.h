@@ -10,7 +10,6 @@
 #include <iomanip>
 #include <random>
 #include <cstdlib>
-#include "priority_queue.h"
 #define BIG_LOOP_LIMIT 10000
 using namespace std;
 // Class connection represents a single connection in the connectivity

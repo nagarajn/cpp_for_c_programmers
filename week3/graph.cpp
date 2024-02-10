@@ -7,19 +7,19 @@ graph::graph(int nof_vertices, float density, int min_distance, int max_distance
                                                                                     density(density), min_distance(min_distance), max_distance(max_distance)
 {
     int total_nof_conn = nof_vertices * (nof_vertices - 1);
-    for (int i = 0; i < total_nof_conn; i++)
+    for (int i = 1; i <= total_nof_conn; i++)
     {
         if (rand() % 100 >= density * 100)
             continue;
         int random_distance = min_distance + (rand() % (max_distance - min_distance)) + 1;
-        int random_node = rand() % nof_vertices;
+        int random_node = (rand() % nof_vertices) + 1;
         int max_loop_cnt = BIG_LOOP_LIMIT;
-        connection a_connection(i % nof_vertices, random_node);
+        connection a_connection((i % nof_vertices) + 1, random_node);
         // Search till we find a unique node to connect with..
-        while ((exists(a_connection) && max_loop_cnt > 0) || (random_node == i))
+        while ((exists(a_connection) && max_loop_cnt > 0) || (random_node == (i % nof_vertices) + 1))
         {
             max_loop_cnt--;
-            random_node = rand() % nof_vertices;
+            random_node = (rand() % nof_vertices) + 1;
             a_connection.y = random_node;
         }
         if (max_loop_cnt == 0)
@@ -47,20 +47,23 @@ int graph::get_average_path_length()
     int average_path_length;
     int divider;
     connection a_connection;
+    a_connection.x = 1;
     total_path_length = 0;
     divider = 0;
-    for (int i = 1; i < nof_vertices; i++)
+    for (int i = 2; i <= nof_vertices; i++)
     {
         a_connection.y = i;
         if (exists(a_connection))
         {
             total_path_length += matrix[a_connection];
             divider++;
+            cout << "exists: " << a_connection << endl;
         }
     }
     // Avoid divide by 0
     if (divider == 0)
         divider = 1;
+    cout << "total_path_length: " << total_path_length << endl;
     average_path_length = total_path_length / divider;
     return average_path_length;
 }
