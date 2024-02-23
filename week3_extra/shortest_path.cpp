@@ -22,10 +22,7 @@ vector<int> shortest_path::path(graph a_graph, int u, int w)
     visited_list.clear();
     unvisited_list = vertices(a_graph);
     cout << "a_graph size: " << a_graph.nof_vertices << " unvisited_list size: " << unvisited_list.size() << endl;
-    for (int x : unvisited_list)
-    {
-        cout << "x: " << x << endl;
-    }
+
     // Let the distance between u and u be 0
     // Let the distance of all other nodes be infinity (MAX_INT) from u
     for (int vertex : unvisited_list)
@@ -38,47 +35,67 @@ vector<int> shortest_path::path(graph a_graph, int u, int w)
     node curr_node;
     curr_node.vertex = u;
     curr_node.weight = 0;
+    curr_node.prev_vertex = u;
+    pq.insert(curr_node);
+
     // Here starts the dijkstra loop:
-    while (unvisited_list.size() && iter_cnt < 5)
+    while (unvisited_list.size() && pq.size())
     {
+        curr_node = pq.top();
         // Insert all neighbours of the current node
         vector<int> neighbours;
         neighbours = a_graph.neighbors(curr_node.vertex);
         cout << "================================================================" << endl;
-        cout << "= iter_cnt: " << iter_cnt << " curr_node.vertex: " << curr_node.vertex << endl;
+        cout << "= iter_cnt: " << iter_cnt << " curr_node.vertex: " << char(curr_node.vertex + 'A' - 1) << endl;
         cout << "================================================================" << endl;
         iter_cnt++;
         cout << "Neighbours: " << neighbours.size() << endl;
         for (int vertex : neighbours)
         {
             node neighbour_node;
+            neighbour_node.prev_vertex = curr_node.vertex;
             neighbour_node.vertex = vertex;
-            neighbour_node.weight = curr_node.weight + a_graph.get_edge_value(curr_node.vertex, vertex);
-            cout << " " << vertex << " weight: " << neighbour_node.weight << endl;
-            pq.insert(neighbour_node);
+            neighbour_node.weight = curr_node.weight + a_graph.get_edge_value(curr_node.vertex, vertex) + a_graph.get_edge_value(vertex, curr_node.vertex);
+            cout << " " << char(vertex + 'A' - 1) << " :: " << neighbour_node.weight << endl;
+            // If the neighbour node is not present in the dijkstra table then insert it into priority queue
+            if (dt[neighbour_node.vertex - 1].dist == MAX_INT)
+            {
+                pq.insert(neighbour_node);
+            }
+            else
+            {
+                cout << "Already in dijkstra table: " << char(neighbour_node.vertex + 'A' - 1) << endl;
+            }
         }
         cout << "================================================================" << endl;
 
         cout << "Priority queue: " << pq.size() << " : " << pq.top() << endl;
         cout << pq << endl;
         cout << "================================================================" << endl;
+
+        // Add to the dijkstra table only if the new value is lower than what exists in the table
+        if (dt[pq.top().vertex - 1].dist > pq.top().weight)
+        {
+            dt[pq.top().vertex - 1].dist = pq.top().weight;
+            dt[pq.top().vertex - 1].prev_vertex = pq.top().prev_vertex;
+            visited_list.push_back(pq.top().vertex);
+        }
         cout << "DT: " << dt.size() << endl;
         for (dt_row a_dt_row : dt)
         {
             cout << a_dt_row << endl;
         }
-        // Add to the dijkstra table only if the new value is lower than what exists in the table
-        if (dt[pq.top().vertex - 1].dist > pq.top().weight)
-        {
-            dt[pq.top().vertex - 1].dist = pq.top().weight;
-        }
         unvisited_list.erase(std::remove(unvisited_list.begin(), unvisited_list.end(), curr_node.vertex), unvisited_list.end());
         cout << "a_graph size: " << a_graph.nof_vertices << " unvisited_list size: " << unvisited_list.size() << endl;
-
-        curr_node = pq.top();
-        // Remove the min priority element from priority queue
-        pq.min_priority();
-        cout << pq << endl;
+        do
+        {
+            // Remove the min priority element from priority queue
+            pq.min_priority();
+            cout << "Priority queue (after removal)" << endl
+                 << pq << endl;
+            cout << "dt[" << curr_node.vertex - 1 << "].dist: " << dt[curr_node.vertex - 1].dist << endl;
+        } while (dt[pq.top().vertex - 1].dist != MAX_INT && pq.size());
+        // } while (find(visited_list.begin(), visited_list.end(), curr_node.vertex) != visited_list.end());
     }
 }
 // path_size(u, w) : return the path cost associated with the shortest path.

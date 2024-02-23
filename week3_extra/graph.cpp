@@ -87,11 +87,16 @@ vector<int> graph::neighbors(int x)
 {
     vector<int> node_list;
     connection a_connection;
+    connection b_connection;
     a_connection.x = x;
-    for (int a_y = 0; a_y < nof_vertices; a_y++)
+    b_connection.y = x;
+    for (int a_y = 1; a_y <= nof_vertices; a_y++)
     {
         a_connection.y = a_y;
+        b_connection.x = a_y;
         if (exists(a_connection))
+            node_list.push_back(a_y);
+        else if (exists(b_connection))
             node_list.push_back(a_y);
     }
     return node_list;

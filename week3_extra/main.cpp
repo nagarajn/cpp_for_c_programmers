@@ -43,7 +43,10 @@ int main()
     add_and_set_edge_value(a_graph, f_node, j_node, 3);
 
     cout << *a_graph << endl;
-
+    connection a_connection;
+    a_connection.x = 4;
+    a_connection.y = 7;
+    cout << "exists: " << a_graph->exists(a_connection) << endl;
     shortest_path *a_shortest_path = new shortest_path(*a_graph);
     vector<int> shortest_path_v;
     shortest_path_v = a_shortest_path->path(*a_graph, 1, 2);
@@ -77,7 +80,10 @@ int main()
     // cout << "one removal:" << pq << " size:" << pq.size() << endl;
     // pq.min_priority();
     // cout << "two removals:" << pq << " size: " << pq.size() << endl;
-    // cout << pq << endl;
+    // pq.min_priority();
+    // cout << "three removal:" << pq << " size:" << pq.size() << endl;
+    // pq.min_priority();
+    // cout << "four removals:" << pq << " size: " << pq.size() << endl;
 }
 void add_and_set_edge_value(graph *a_graph, node &a_node, node &b_node, int edge_value)
 {

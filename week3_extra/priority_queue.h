@@ -9,6 +9,7 @@ class node
 {
 public:
     int vertex;
+    int prev_vertex; // Required only for the priority queue, not the graph itself
     int weight; // same as accumulated distance -- required only for the priority queue, not the graph itself
     // Constructor
     node(int vertex = 0, int weight = MAX_INT) : vertex(vertex), weight(weight)
@@ -24,7 +25,7 @@ public:
     // Overload the ostream operator for easier prints
     friend ostream &operator<<(ostream &os, const node &n)
     {
-        os << setw(2) << '(' << setw(2) << n.vertex << ',' << setw(2) << n.weight << ')';
+        os << setw(2) << '(' << setw(2) << char(n.prev_vertex + 'A' - 1) << "->" << setw(2) << char(n.vertex + 'A' - 1) << ',' << setw(2) << n.weight << ')';
         return os;
     }
     bool operator==(const node &other)
