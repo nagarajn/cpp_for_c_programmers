@@ -97,6 +97,23 @@ vector<int> shortest_path::path(graph a_graph, int u, int w)
         } while (dt[pq.top().vertex - 1].dist != MAX_INT && pq.size());
         // } while (find(visited_list.begin(), visited_list.end(), curr_node.vertex) != visited_list.end());
     }
+    // Now get the shortest path from the dijkstra table
+
+    // If the node is unreachable
+    if (dt[w - 1].dist == MAX_INT)
+        return path;
+    path.push_back(w);
+    int i;
+    i = w;
+    while (dt[i - 1].prev_vertex != u)
+    {
+        path.push_back(dt[i - 1].prev_vertex);
+
+        i = dt[i - 1].prev_vertex;
+    };
+    path.push_back(u);
+    reverse(path.begin(), path.end());
+    return path;
 }
 // path_size(u, w) : return the path cost associated with the shortest path.
 int shortest_path::path_size(graph a_graph, int u, int w)
