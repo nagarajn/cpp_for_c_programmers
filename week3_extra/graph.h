@@ -3,7 +3,8 @@
 // Turn in:  Printout of program, 200 words on what you learned, and output showing the average path length calculation. Use densities: 20% and 40% on a graph of 50 nodes with a distance range of 1.0 to 10.0.   To get an average path length, compute the 49 paths:
 // 1 to 2, 1 to 3, 1 to 4, …, 1 to 50.
 // [In an instance where there is no path between 1 and n, omit that value from the average. This should be very rare for the chosen density and size in this homework.]
-
+#ifndef __GRAPH_H__
+#define __GRAPH_H__
 #include <map>
 #include <string>
 #include <iostream>
@@ -59,7 +60,7 @@ public:
         int loop_cnt = 0;
         cout << "===========================================================" << endl;
         cout << "matrix size::  " << g.matrix.size() << endl;
-        cout << "nof_vertices::    " << g.nof_vertices << endl;
+        cout << "nof_vertices:: " << g.nof_vertices << endl;
         cout << "density::      " << g.density << endl;
         cout << "min_distance:: " << g.min_distance << endl;
         cout << "max_distance:: " << g.max_distance << endl;
@@ -107,3 +108,5 @@ public:
     // set_edge_value(G, x, y, v) : sets the value associated to the edge(x, y) to v.
     void set_edge_value(int x, int y, int v);
 };
+
+#endif

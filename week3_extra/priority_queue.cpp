@@ -5,6 +5,8 @@
 // minPrioirty(PQ): removes the top element of the queue.
 void priority_queue::min_priority()
 {
+    cout << "min_heap_arr.size(): " << min_heap_arr.size() << endl;
+
     // if there aren't any elements, then simply return
     if (min_heap_arr.size() == 0)
         return;
@@ -19,7 +21,11 @@ void priority_queue::min_priority()
     swap(min_heap_arr[0], min_heap_arr.back());
     // Now remove the last element
     min_heap_arr.erase(min_heap_arr.end() - 1);
-
+    // To start with there were two elements, but now there's one. Simply return.
+    if (min_heap_arr.size() == 1)
+    {
+        return;
+    }
     // Now push down the new head of the heap if required
     // Handle the case where only two elements are present:
     if (min_heap_arr.size() == 2)
@@ -30,16 +36,19 @@ void priority_queue::min_priority()
         }
         return;
     }
-    // Handle the more generic case of nof of elements <2
+    // Handle the more generic case of nof of elements >2
     int child0_idx = 1;
     int child1_idx = 2;
     int parent_idx = 0;
     // If swapping is required:
-    while ((min_heap_arr[parent_idx] > min_heap_arr[child0_idx]) ||
-           (min_heap_arr[parent_idx] > min_heap_arr[child1_idx]))
+    while (((min_heap_arr[parent_idx] > min_heap_arr[child0_idx]) ||
+            (min_heap_arr[parent_idx] > min_heap_arr[child1_idx])) &&
+           (parent_idx < min_heap_arr.size()))
     {
+        cout << "parent_idx: " << parent_idx << " child1_idx: " << child1_idx << " child0_idx: " << child0_idx << endl;
+
         // Swap with the child node that has lower value of the two child nodes
-        if (min_heap_arr[child0_idx] > min_heap_arr[child1_idx])
+        if ((min_heap_arr[child0_idx] > min_heap_arr[child1_idx]) && (child1_idx < min_heap_arr.size()))
         {
             swap(min_heap_arr[child1_idx], min_heap_arr[parent_idx]);
             parent_idx = child1_idx;

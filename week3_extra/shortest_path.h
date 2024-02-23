@@ -15,6 +15,12 @@ public:
     int dist;
     int prev_vertex;
     dt_row(int dist, int prev_vertex) : dist(dist), prev_vertex(prev_vertex){};
+    // Overload the ostream operator for easier prints
+    friend ostream &operator<<(ostream &os, const dt_row &a_dt_row)
+    {
+        os << setw(2) << '(' << setw(2) << a_dt_row.prev_vertex << ',' << setw(2) << a_dt_row.dist << ')';
+        return os;
+    }
 };
 class shortest_path
 {
@@ -34,7 +40,7 @@ public:
     // vertices representing shorest path u - v1 - v2 -…- vn - w.
     vector<int> path(graph a_graph, int u, int w);
     // path_size(u, w) : return the path cost associated with the shortest path.
-    int path_size(graph a_graph, vector<int> u, vector<int> w);
+    int path_size(graph a_graph, int u, int w);
 };
 
 #endif

@@ -9,7 +9,7 @@ class node
 {
 public:
     int vertex;
-    int weight; // same as accumulated distance
+    int weight; // same as accumulated distance -- required only for the priority queue, not the graph itself
     // Constructor
     node(int vertex = 0, int weight = MAX_INT) : vertex(vertex), weight(weight)
     {
